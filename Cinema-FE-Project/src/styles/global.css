@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #E50914;
+  --secondary: #B81D24;
+  --bg-dark: #050505;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Outfit", "Inter", system-ui, sans-serif;
+  background-color: var(--bg-dark);
+  background: radial-gradient(circle at 50% 0%, #1a0607 0%, #050505 70%);
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #000;
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.text-glow {
+  text-shadow: 0 0 20px rgba(229, 9, 20, 0.5);
+}
+
+.btn-primary {
+  @apply relative inline-flex items-center justify-center px-10 py-4 bg-primary text-white font-black uppercase tracking-tighter rounded-2xl transition-all duration-300 overflow-hidden shadow-[0_15px_30px_rgba(229,9,20,0.3)];
+}
+
+.btn-primary:hover {
+  @apply scale-105 bg-red-700 shadow-[0_20px_50px_rgba(229,9,20,0.5)];
+}
+
+.btn-primary::after {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full transition-transform duration-500 skew-x-12;
+}
+
+.btn-primary:hover::after {
+  @apply translate-x-full;
+}
+
+.movie-card-glow {
+  @apply absolute inset-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100;
+  background: radial-gradient(circle at 50% 100%, rgba(229, 9, 20, 0.25) 0%, transparent 70%);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-premium-fade {
+  animation: fadeIn 0.8s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+}
+

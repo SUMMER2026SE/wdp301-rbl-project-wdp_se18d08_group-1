@@ -1,0 +1,9 @@
+{
+  "short_name": "Cinema",
+  "name": "Cinema Management System",
+  "icons": [],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#E50914",
+  "background_color": "#141414"
+}
