@@ -36,7 +36,7 @@ async function sendVerifyEmailOtp(to, otp, fullName) {
 
   const htmlContent = `
     <div style="font-family: Arial, sans-serif; max-width: 480px; margin: 0 auto; padding: 24px;">
-      <h1 style="color: #E50914;">Cinema Ticket</h1>
+      <h1 style="color: #E50914;">PHOTOHUB</h1>
       <p>Xin chào <strong>${name}</strong>,</p>
       <p>Mã xác thực email của bạn:</p>
       <p style="font-size: 28px; font-weight: bold; letter-spacing: 6px; color: #E50914;">${otp}</p>
@@ -45,9 +45,9 @@ async function sendVerifyEmailOtp(to, otp, fullName) {
   `;
 
   await t.sendMail({
-    from: `"${process.env.MAIL_FROM_NAME || "Cinema"}" <${process.env.MAIL_USER}>`,
+    from: `"${process.env.MAIL_FROM_NAME || "PHOTOHUB"}" <${process.env.MAIL_USER}>`,
     to,
-    subject: "Mã xác thực email - Cinema Ticket",
+    subject: "Mã xác thực email - PHOTOHUB",
     text: `Mã OTP của bạn: ${otp} (hiệu lực 15 phút)`,
     html: htmlContent,
   });

@@ -3,12 +3,12 @@ const app = require("./app");
 const { initSocket } = require("./socket");
 const PORT = process.env.PORT || 3000;
 
-// const { connectMongo } = require("./mongo");
+const { connectMongo } = require("./mongo");
 
 async function startServer() {
   try {
-    // await connectMongo();
-    // console.log("Database connected");
+    await connectMongo();
+    console.log("Database connected");
 
     const server = http.createServer(app);
     initSocket(server);

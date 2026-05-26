@@ -57,15 +57,40 @@ class AuthController {
     const email = String(req.body.email || "").trim().toLowerCase();
     const password = String(req.body.password || "").trim();
 
+    console.log("===== LOGIN REQUEST =====");
+    console.log("EMAIL INPUT:", email);
+    console.log("PASSWORD INPUT:", password);
+
     if (!email || !password) {
-      return ApiResponse.error(res, "Vui lòng nhập email và mật khẩu", 400);
+      console.log("Thiếu email hoặc password");
+
+      return ApiResponse.error(
+        res,
+        "Vui lòng nhập email và mật khẩu",
+        400
+      );
     }
 
     try {
       const result = await authService.login({ email, password });
-      return ApiResponse.success(res, result, "Login successfully");
+
+      console.log("LOGIN SUCCESS");
+      console.log(result);
+
+      return ApiResponse.success(
+        res,
+        result,
+        "Login successfully"
+      );
     } catch (e) {
-      return ApiResponse.error(res, e.message, 401);
+      console.log("LOGIN ERROR:");
+      console.log(e);
+
+      return ApiResponse.error(
+        res,
+        e.message,
+        401
+      );
     }
   }
 

@@ -139,32 +139,74 @@ class AuthService {
   }
 
   async login(data) {
+
+    console.log("=== LOGIN SERVICE ===");
+
     const user = await findUserByEmail(data.email);
-    if (!user) throw new Error("Thông tin đăng nhập không hợp lệ");
+
+    console.log("FOUND USER:", user);
+
+    if (!user) {
+      console.log("KHÔNG TÌM THẤY USER");
+      throw new Error("Thông tin đăng nhập không hợp lệ");
+    }
+
+    console.log("isVerified:", user.isVerified);
 
     if (!user.isVerified) {
+      console.log("CHƯA VERIFY");
       throw new Error(
         "Tài khoản chưa được xác thực. Vui lòng kiểm tra email để nhận mã OTP xác thực."
       );
     }
 
-    const isMatch = await bcrypt.compare(data.password, user.password);
-    if (!isMatch) throw new Error("Thông tin đăng nhập không hợp lệ");
+    console.log("INPUT PASSWORD:", data.password);
+    console.log("HASH:", user.password);
 
-    if (user.isBlocked) {
-      throw new Error("Tài khoản đã bị khóa. Vui lòng liên hệ quản trị viên.");
-    }
-
-    const token = jwt.sign(
-      { id: user._id, email: user.email, role: user.role },
-      JWT_SECRET,
-      { expiresIn: JWT_EXPIRE }
+    const isMatch = await bcrypt.compare(
+      data.password,
+      user.password
     );
 
-    const userObj = user.toObject();
-    delete userObj.password;
+    console.log("MATCH:", isMatch);
 
-    return { user: userObj, token };
+    if (!isMatch) {
+      throw new Error("Thông tin đăng nhập không hợp lệ");
+    }
+
+    if (user.isBlocked) {
+      throw new Error(
+        "Tài khoản đã bị khóa."
+      );
+    }
+
+    console.log("LOGIN SUCCESS");
+
+    // tạo JWT token
+    const token = jwt.sign(
+      {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+      },
+      JWT_SECRET,
+      {
+        expiresIn: JWT_EXPIRE,
+      }
+    );
+
+    // convert object
+    const userObj = user.toObject();
+
+    // xóa dữ liệu nhạy cảm
+    delete userObj.password;
+    delete userObj.passwordPlainForAdmin;
+
+    // return đúng
+    return {
+      user: userObj,
+      token,
+    };
   }
 
   async forgotPassword(email) {
